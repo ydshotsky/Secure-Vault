@@ -1,4 +1,5 @@
 Secure Vault
+
 The Problem
 Cryptographic operations (Argon2, BCrypt, Scrypt) are designed to be CPU-intensive to thwart brute-force attacks. However, in a web environment,a sudden 
 burst of authentication requests can saturate the CPU, leading to cascading latency—where even simple, non-crypto requests (like health checks or static
