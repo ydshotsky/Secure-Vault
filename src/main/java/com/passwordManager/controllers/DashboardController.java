@@ -1,7 +1,7 @@
 package com.passwordManager.controllers;
 
 
-import com.passwordManager.password.repository.PasswordRepository;
+import com.passwordManager.password.PasswordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

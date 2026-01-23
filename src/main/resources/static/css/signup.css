@@ -10,6 +10,10 @@ html, body {
 .container a:hover {
     color: #1c2f2f;
 }
+.disabled-style {
+    color: black;
+    background-color: #c5c1c1;
+}
 
 .container a {
     color: #2f4f4f;

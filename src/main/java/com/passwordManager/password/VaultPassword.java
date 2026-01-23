@@ -1,6 +1,6 @@
-package com.passwordManager.password.entity;
+package com.passwordManager.password;
 
-import com.passwordManager.user.entity.User;
+import com.passwordManager.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

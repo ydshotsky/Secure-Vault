@@ -1,7 +1,7 @@
 package com.passwordManager.configuration;
 
-import com.passwordManager.user.entity.User;
-import com.passwordManager.user.repository.UserRepository;
+import com.passwordManager.user.User;
+import com.passwordManager.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

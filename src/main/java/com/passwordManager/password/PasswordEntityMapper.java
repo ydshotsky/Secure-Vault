@@ -1,7 +1,5 @@
-package com.passwordManager.password.mapper;
+package com.passwordManager.password;
 
-import com.passwordManager.password.dto.PasswordDto;
-import com.passwordManager.password.entity.VaultPassword;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

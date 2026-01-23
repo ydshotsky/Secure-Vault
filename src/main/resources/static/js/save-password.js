@@ -23,7 +23,6 @@ async function savePassword() {
 
     if(res.status === 200){
         alert("Password has been saved!");
-        document.location.reload();
     }
     if(res.status === 423){
         alert("vault is locked,please unlock the vault.");

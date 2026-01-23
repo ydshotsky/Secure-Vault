@@ -1,4 +1,4 @@
-package com.passwordManager.password.dto;
+package com.passwordManager.password;
 
 import lombok.Getter;
 import lombok.Setter;

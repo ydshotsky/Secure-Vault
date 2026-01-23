@@ -25,8 +25,8 @@ server:
 
   # Tell Spring to trust the 'X-Forwarded-Proto' header from your host (e.g., Render/AWS)
   forward-headers-strategy: framework
-error:
-  include-message: always
-  include-binding-errors: always
+  error:
+    include-message: always
+    include-binding-errors: always
       
 

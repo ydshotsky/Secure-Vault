@@ -1,6 +1,6 @@
 package com.passwordManager.configuration;
 
-import com.passwordManager.user.entity.User;
+import com.passwordManager.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

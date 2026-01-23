@@ -1,6 +1,6 @@
-package com.passwordManager.user.entity;
+package com.passwordManager.user;
 
-import com.passwordManager.password.entity.VaultPassword;
+import com.passwordManager.password.VaultPassword;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,30 +14,27 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name ="users")
+@Table(name = "users")
 public class User {
     @Id
-    @SequenceGenerator(name="user_seq",sequenceName = "user_seq",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     //hashed master key
-    @Column(unique = true)
+    @Column(nullable = false)
     private String password;
 
     // salt for PBKDF2 / Argon2
-    @Column(nullable = false,columnDefinition = "BYTEA",unique = true)
+    @Column(nullable = false, columnDefinition = "BYTEA", unique = true)
     private byte[] kdfSalt;
 
-    // all passwords linked
-    //cascadeType.all remove all passwords if related user deleted itself
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<VaultPassword> passwords;
-
 }

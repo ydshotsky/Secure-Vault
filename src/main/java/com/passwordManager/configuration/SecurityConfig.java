@@ -31,10 +31,9 @@ public class SecurityConfig {
         return new HiddenHttpMethodFilter();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10);
     }
 
     @Bean
@@ -47,7 +46,7 @@ public class SecurityConfig {
         http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/signup", "/login", "/css/**","/users/username-availability")
+                        .requestMatchers("/signup", "/login", "/css/**","/users/username-availability","/js/signup.js")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin

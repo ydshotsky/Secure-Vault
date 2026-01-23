@@ -1,6 +1,5 @@
-package com.passwordManager.user.controller;
+package com.passwordManager.user;
 
-import com.passwordManager.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/username-availability")
     public ResponseEntity<?> checkUsernameAvailability(@RequestParam String username) {
-        return ResponseEntity.ok(!userRepository.existsByUsername(username));
+        return ResponseEntity.ok(!userService.doesUserExistByUsername(username));
     }
 
 }

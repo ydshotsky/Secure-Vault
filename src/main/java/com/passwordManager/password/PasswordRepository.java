@@ -1,6 +1,5 @@
-package com.passwordManager.password.repository;
+package com.passwordManager.password;
 
-import com.passwordManager.password.entity.VaultPassword;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

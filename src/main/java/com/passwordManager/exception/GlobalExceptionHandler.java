@@ -9,7 +9,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {
-        System.out.println(ex);
         model.addAttribute("errorMessage", ex.getMessage());
         return "error";
     }

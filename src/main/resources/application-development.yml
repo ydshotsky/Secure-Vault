@@ -2,14 +2,20 @@ spring:
   application:
     name: PasswordManager
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/passwordDb
+    username: postgres
+    password: 1234
   jpa:
     hibernate:
       ddl-auto: update
+  threads:
+    virtual:
+      enabled: true
+  config:
+    import: optional:file:.env.development[.properties]
 
 server:
   servlet:
     session:
       timeout: 20m
+

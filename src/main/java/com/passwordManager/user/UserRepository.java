@@ -1,6 +1,5 @@
-package com.passwordManager.user.repository;
+package com.passwordManager.user;
 
-import com.passwordManager.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
