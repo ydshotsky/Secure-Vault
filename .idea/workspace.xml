@@ -4,46 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main_password-manager-561.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/PasswordManagerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/SecureVaultApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/annotations/VaultUnlockedRequired.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/annotations/VaultUnlockedRequired.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/CpuBudget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/CpuBudget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/CpuExecutorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/CpuExecutorConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/CustomUserDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/configuration/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/controllers/VaultController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/VaultController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/interceptors/VaultUnlockInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/interceptors/VaultUnlockInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/PasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/PasswordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/PasswordEntityMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultEntityMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/PasswordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/PasswordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/SavePasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/SavePasswordRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/password/VaultPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPassword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/security/crypto/AesGcmUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/AesGcmUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/security/crypto/CryptoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/CryptoUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/security/crypto/EncryptionResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/EncryptionResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/security/crypto/KeyDerivationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/KeyDerivationUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/security/session/SessionKeyHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/session/SessionKeyHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/user/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/user/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/passwordManager/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/user/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-development.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-development.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-production.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-production.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/save-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/save-password.js" afterDir="false" />
-    </list>
+    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,7 +139,7 @@
       <workItem from="1768805637162" duration="1885000" />
       <workItem from="1768990864633" duration="10872000" />
       <workItem from="1769072981156" duration="16134000" />
-      <workItem from="1769156665540" duration="11166000" />
+      <workItem from="1769156665540" duration="11491000" />
     </task>
     <servers />
   </component>
