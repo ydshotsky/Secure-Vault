@@ -17,9 +17,7 @@ degrading for everyone.
 
 The application separates I/O-bound tasks from CPU-bound tasks:
 
-I/O Layer: Leverages Java Virtual Threads to handle thousands of concurrent web connections
-           
-           efficiently.
+I/O Layer: Leverages Java Virtual Threads to handle thousands of concurrent web connections efficiently.
 
 Admission Control: A Global Semaphore acts as a "Gatekeeper," limiting active crypto-work to a specific CPU budget (e.g., Available Processors - 1).
 
@@ -54,18 +52,18 @@ Target: CPU-heavy authentication path(eg :signup,unlock,reveal)
 
 This test compares system behavior with and without CPU admission control under identical conditions.
 
-_________________________________________________________________________________
-Metric         |With Admission Control (Safe) |Without Control (Oversubscribed)  |
-_______________|______________________________|__________________________________|
+           _________________________________________________________________________________
+           Metric         |With Admission Control (Safe) |Without Control (Oversubscribed)  |
+           _______________|______________________________|__________________________________|
 
-CPU Plateau    |~25% (Stable)                 |~62% (Spiked)                     |
+           CPU Plateau    |~25% (Stable)                 |~62% (Spiked)                     |
 
-p95 Latency    |798 ms                        |1351 ms                           |
+           p95 Latency    |798 ms                        |1351 ms                           |
 
-Min Latency    |166 ms                        |914 ms                            |
+           Min Latency    |166 ms                        |914 ms                            |
 
-System Health  |Responsive, 17 rejected early |Unresponsive, all requests delayed|
-_______________|______________________________|__________________________________|
+           System Health  |Responsive, 17 rejected early |Unresponsive, all requests delayed|
+           _______________|______________________________|__________________________________|
 
 Key Takeaway
 
