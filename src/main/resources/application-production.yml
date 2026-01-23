@@ -1,6 +1,6 @@
 spring:
   application:
-    name: PasswordManager
+    name: SecureVault
   datasource:
     url: ${SPRING_DATABASE_URL}
     username: ${SPRING_DATABASE_USERNAME}

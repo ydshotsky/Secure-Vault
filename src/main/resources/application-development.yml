@@ -1,10 +1,10 @@
 spring:
   application:
-    name: PasswordManager
+    name: SecureVault
   datasource:
-    url: jdbc:postgresql://localhost:5432/passwordDb
-    username: postgres
-    password: 1234
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update

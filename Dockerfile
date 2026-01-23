@@ -2,7 +2,7 @@
 FROM eclipse-temurin:21-jdk AS build
 
 # Set working directory inside container
-WORKDIR /PasswordManager
+WORKDIR /SecureVault
 
 # Copy Maven wrapper and project files (for caching dependencies)
 COPY mvnw .
@@ -23,10 +23,10 @@ RUN ./mvnw clean package -DskipTests
 FROM eclipse-temurin:21-jre
 
 # Set working directory inside container
-WORKDIR /PasswordManager
+WORKDIR /SecureVault
 
 # Copy JAR from build stage
-COPY --from=build /PasswordManager/target/*.jar app.jar
+COPY --from=build /SecureVault/target/*.jar app.jar
 ENV SPRING_PROFILES_ACTIVE=production
 
 

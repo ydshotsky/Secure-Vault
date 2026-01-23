@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com</groupId>
-    <artifactId>PasswordManager</artifactId>
+    <artifactId>SecureVault</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>PasswordManagerBackend</name>
-    <description>PasswordManager</description>
+    <name>SecureVault</name>
+    <description>PSecureVault</description>
     <url/>
     <licenses>
         <license/>
