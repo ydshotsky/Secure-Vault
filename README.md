@@ -1,4 +1,9 @@
+
+
 Secure Vault
+
+Secure Vault is a web-based password manager built with Spring Boot. It provides secure credential storage using AES-256 encryption while utilizing 
+advanced admission control to protect against CPU-exhaustion attacks during high-traffic bursts.
 
 The Problem
 
