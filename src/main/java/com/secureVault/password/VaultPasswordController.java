@@ -3,6 +3,7 @@ package com.secureVault.password;
 import com.secureVault.annotations.VaultUnlockedRequired;
 import com.secureVault.configuration.CpuBudget;
 import com.secureVault.configuration.UserPrincipal;
+import com.secureVault.redis.RedisService;
 import com.secureVault.security.crypto.AesGcmUtil;
 import com.secureVault.security.crypto.EncryptionResult;
 import com.secureVault.security.session.SessionKeyHolder;
@@ -38,6 +39,7 @@ public class VaultPasswordController {
     private final ExecutorService cpuPool;
     private final UserService userService;
     private final CpuBudget cpuBudget;
+    private final RedisService redisService;
 
     public SessionKeyHolder getActiveVaultKey(HttpSession session) {
         SessionKeyHolder sessionKeyHolder = (SessionKeyHolder) session.getAttribute("VAULT_KEY");
@@ -119,7 +121,7 @@ public class VaultPasswordController {
         }
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
+        String username = userPrincipal.getUsername();
         VaultPassword vaultPassword = VaultPassword
                 .builder()
                 .siteUrl(savePasswordRequest.getSiteUrl())
@@ -131,7 +133,7 @@ public class VaultPasswordController {
                 .build();
 
         User user = userService
-                .findUserByUsername(userPrincipal.getUsername())
+                .findUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         vaultPassword.setUser(user);
@@ -155,8 +157,7 @@ public class VaultPasswordController {
             vaultPassword.setEncryptedPassword(encryptionResult.encryptedPassword());
             vaultPassword.setIv(encryptionResult.iv());
 
-        }
-        catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         try {
@@ -164,19 +165,23 @@ public class VaultPasswordController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error saving password");
         }
+        redisService.clearCachedPasswordList(username);
         return ResponseEntity.ok("password saved successfully");
     }
 
     @GetMapping("/password-list")
     public String passwordListForm(Model model, Authentication authentication) {
-        List<VaultPassword> passwords = vaultService
-                .findPasswordByUserUsername(authentication.getName());
-        List<VaultDto> vaultDtos = passwords
-                .stream()
-                .map(vaultEntityMapper::getVaultDto)
-                .toList();
-
-
+        String username = authentication.getName();
+        List<VaultDto> vaultDtos=redisService.getCachedPasswordList(username);
+        if (vaultDtos==null) {
+            List<VaultPassword> passwords = vaultService
+                    .findPasswordByUserUsername(username);
+            vaultDtos = passwords
+                    .parallelStream()
+                    .map(vaultEntityMapper::getVaultDto)
+                    .toList();
+            redisService.cachePasswordList(username, vaultDtos);
+        }
         if (vaultDtos.isEmpty())
             model.addAttribute("message", "No Passwords Saved Yet");
         else
@@ -191,15 +196,20 @@ public class VaultPasswordController {
             return "search-password";
         }
 
-        List<VaultPassword> passwords = vaultService
-                .findPasswordByKeywordAndUserUsername(
-                        keyword,
-                        authentication.getName());
+        List<VaultDto> vaultDtos=redisService.getCachedPasswordList(keyword);
+        if (vaultDtos==null) {
+            List<VaultPassword> passwords = vaultService
+                    .findPasswordByKeywordAndUserUsername(
+                            keyword,
+                            authentication.getName());
 
-        List<VaultDto> vaultDtos = passwords
-                .stream()
-                .map(vaultEntityMapper::getVaultDto)
-                .toList();
+            vaultDtos = passwords
+                    .stream()
+                    .map(vaultEntityMapper::getVaultDto)
+                    .toList();
+            redisService.cachePasswordList(keyword, vaultDtos);
+        }
+
         if (vaultDtos.isEmpty()) {
             model.addAttribute("message", "No passwords found for '" + keyword + "'");
         } else {
@@ -211,7 +221,7 @@ public class VaultPasswordController {
 
     @DeleteMapping("/delete/{id}")
     @VaultUnlockedRequired
-    public ResponseEntity<String> deletePassword(@PathVariable("id") Long id, HttpSession session) {
+    public ResponseEntity<String> deletePassword(@PathVariable("id") Long id, HttpSession session,Authentication authentication) {
         SessionKeyHolder sessionKeyHolder = getActiveVaultKey(session);
         if (sessionKeyHolder == null) {
             return ResponseEntity
@@ -219,6 +229,7 @@ public class VaultPasswordController {
                     .body("vault is locked, please enter login password");
         }
         vaultService.deletePasswordById(id);
+        redisService.clearCachedPasswordList(authentication.getName());
         return ResponseEntity.ok("password deleted successfully");
     }
 }

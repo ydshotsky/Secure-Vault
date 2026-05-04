@@ -1,5 +1,7 @@
 package com.secureVault.configuration;
 
+import com.secureVault.redis.RedisService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +18,9 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final RedisService redisService;
 
     @Bean
     public AuthenticationProvider authenticationProvider(CustomUserDetailService customUserDetailService, PasswordEncoder passwordEncoder) {
@@ -46,7 +50,12 @@ public class SecurityConfig {
         http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/signup", "/login", "/css/**","/users/username-availability","/js/signup.js")
+                        .requestMatchers("/actuator/**",
+                                "/signup",
+                                "/login",
+                                "/css/**",
+                                "/users/username-availability",
+                                "/js/signup.js")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
@@ -56,7 +65,13 @@ public class SecurityConfig {
                         .failureUrl("/login?error=true"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout"));
+                        .addLogoutHandler((request, response, authentication) -> {
+                            if (authentication != null && authentication.getName() != null)
+                                redisService.clearCachedPasswordList(authentication.getName());
+                        })
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 }

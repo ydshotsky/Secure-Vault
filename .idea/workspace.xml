@@ -4,11 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="" />
+    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-development.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-development.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_E:/hk/gith/SecureVault" value="37R77Cvo7nfUtN9fdiyRlOrzeqM" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -27,12 +41,12 @@
     &quot;assignee&quot;: &quot;ydshotsky&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ydshotsky/Password-Manager.git",
-    "accountId": "c724568f-20cf-46b5-a07d-8c71a19d9cb8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ydshotsky/Password-Manager.git&quot;,
+    &quot;accountId&quot;: &quot;c724568f-20cf-46b5-a07d-8c71a19d9cb8&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -71,18 +85,27 @@
     "Spring Boot.PasswordManagerApplication.executor": "Run",
     "Spring Boot.SecureVaultApplication.executor": "Run",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/hk/gith/PasswordManager",
+    "last_opened_file_path": "E:/hk/gith/SecureVault/src/main/java/com/secureVault",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.customization.CustomizationConfigurable",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\hk\gith\SecureVault\src\main\java\com\secureVault" />
       <recent name="E:\hk\gith\PasswordManager\src\main\java\com\passwordManager\password" />
       <recent name="E:\hk\gith\PasswordManager\Backend\src\main\resources" />
     </key>
@@ -103,7 +126,7 @@
     </configuration>
     <configuration name="SecureVaultApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="PasswordManager" />
+      <module name="SecureVault" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.secureVault.SecureVaultApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -140,10 +163,24 @@
       <workItem from="1768990864633" duration="10872000" />
       <workItem from="1769072981156" duration="16134000" />
       <workItem from="1769156665540" duration="11491000" />
+      <workItem from="1775487695309" duration="3180000" />
+      <workItem from="1775494517082" duration="14000" />
+      <workItem from="1776018987401" duration="23000" />
+      <workItem from="1776538466039" duration="17000" />
+      <workItem from="1777204758016" duration="663000" />
+      <workItem from="1777899726799" duration="4435000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

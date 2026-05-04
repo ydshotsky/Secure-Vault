@@ -2,6 +2,7 @@ package com.secureVault.controllers;
 
 import com.secureVault.configuration.CpuBudget;
 import com.secureVault.configuration.UserPrincipal;
+import com.secureVault.redis.RedisService;
 import com.secureVault.security.crypto.CryptoUtils;
 import com.secureVault.user.User;
 import com.secureVault.user.UserService;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +30,7 @@ public class AuthController {
     private final ExecutorService cpuPool;
     private final UserService userService;
     private final CpuBudget  cpuBudget;
+    private final RedisService redisService;
 
 
 
@@ -95,6 +98,7 @@ public class AuthController {
 
         userService.deleteUser(user);
         request.logout();
+        redisService.clearCachedPasswordList(authentication.getName());
         return ResponseEntity.ok().build();
     }
 

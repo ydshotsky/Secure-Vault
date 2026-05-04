@@ -13,6 +13,28 @@ spring:
       enabled: true
   config:
     import: optional:file:.env.development[.properties]
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    enable:
+      all: true
+    tags:
+      application: password-manager
+  tracing:
+    sampling:
+      probability: 1.0 # Trace every request
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
 
 server:
   servlet:
