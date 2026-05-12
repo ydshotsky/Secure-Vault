@@ -32,6 +32,8 @@ async function revealPassword(id) {
 
 async function deletePassword(id) {
     const url = `/password/delete/${id}`;
+    const res=confirm("Are you sure you want to delete this password?");
+    if (!res)return;
     const csrftoken = document.querySelector('meta[name="_csrf"]').content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 
