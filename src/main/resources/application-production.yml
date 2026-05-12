@@ -17,6 +17,10 @@ spring:
       url: ${REDIS_URL}
       ssl:
         enabled: true
+
+  config:
+    import: optional:file:.env.production[.properties]
+
 server:
   servlet:
     session:
