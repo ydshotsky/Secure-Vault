@@ -2,9 +2,9 @@ spring:
   application:
     name: SecureVault
   datasource:
-    url: ${SPRING_DATABASE_URL}
-    username: ${SPRING_DATABASE_USERNAME}
-    password: ${SPRING_DATABASE_PASSWORD}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -17,9 +17,6 @@ spring:
       url: ${REDIS_URL}
       ssl:
         enabled: true
-
-  config:
-    import: optional:file:.env.production[.properties]
 
 server:
   servlet:
@@ -40,17 +37,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus
+        include: health,info
   metrics:
     enable:
         all: true
   tracing:
     sampling:
       probability: 1.0
-  otlp:
-    metrics:
-      export:
-        url: ${OTEL_EXPORTER_OTLP_ENDPOINT_METRICS:http://localhost:4318/v1/metrics}
-        step: 10s
-    tracing:
-      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT_TRACES:http://localhost:4318/v1/traces}

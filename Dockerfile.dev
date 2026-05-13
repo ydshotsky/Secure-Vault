@@ -1,0 +1,50 @@
+# ===== BUILD STAGE =====
+FROM ghcr.io/graalvm/native-image-community:21 AS build
+
+WORKDIR /SecureVault
+
+# Install tools
+RUN microdnf install -y findutils tar gzip
+
+# Copy Maven wrapper and project files
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+RUN chmod +x mvnw
+
+# Download dependencies
+RUN ./mvnw dependency:go-offline -B
+
+# Copy source
+COPY src src
+
+# Build native image
+RUN ./mvnw clean package -Pnative -DskipTests
+
+# ===== RUNTIME STAGE =====
+FROM debian:12-slim
+
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+WORKDIR /app
+
+# Copy executable
+COPY --from=build /SecureVault/target/SecureVault /app/securevault
+
+RUN chmod +x /app/securevault && \
+    chown -R appuser:appuser /app
+
+USER appuser
+
+ENV SPRING_PROFILES_ACTIVE=development
+ENV PORT=8080
+
+EXPOSE 8080
+
+ENTRYPOINT ["/app/securevault"]
