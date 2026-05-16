@@ -5,12 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile.prod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/SecureVaultApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/SecureVaultApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile.prod" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile.prod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/CryptoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/security/crypto/CryptoUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application-production.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-production.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/signup.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/signup.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/deleteProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/deleteProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/password-entry-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/password-entry-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/password-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/password-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/search-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/search-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +33,12 @@
     <persistenceIdMap>
       <entry key="_E:/hk/gith/SecureVault" value="37R77Cvo7nfUtN9fdiyRlOrzeqM" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="agent-panel" value="GPT-5.2-Codex" />
+      <entry key="chat-panel" value="GPT-5.2-Codex" />
+    </selectedModels>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -179,6 +197,9 @@
       <workItem from="1778331307649" duration="39000" />
       <workItem from="1778585933225" duration="10979000" />
       <workItem from="1778670622322" duration="761000" />
+      <workItem from="1778753144777" duration="10503000" />
+      <workItem from="1778831238860" duration="8297000" />
+      <workItem from="1778858332142" duration="1599000" />
     </task>
     <servers />
   </component>

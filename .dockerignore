@@ -1,0 +1,51 @@
+# Build & IDE artifacts
+target/
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+.class
+*.log
+
+# Git & source control
+.git/
+.gitignore
+.github/
+
+# Documentation & configs
+README.md
+AZURE_DEPLOYMENT.md
+*.md
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (if used for frontend build)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Maven wrapper (optional - not needed in container)
+# Uncomment if you want to keep mvnw in image:
+# mvnw
+# .mvn/
+
+# Docker files (don't need to copy these)
+Dockerfile
+Dockerfile.dev
+Dockerfile.prod
+docker-compose.yml
+.dockerignore
+
+# JVM temp files
+*.jfr
+*.hprof
+
+# OS temp files
+.DS_Store
+Thumbs.db
+

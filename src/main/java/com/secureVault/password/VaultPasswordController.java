@@ -103,7 +103,6 @@ public class VaultPasswordController {
     }
 
     @PostMapping("/save-vault-password")
-    @Transactional
     @VaultUnlockedRequired
     public ResponseEntity<String> savePassword(
             @ModelAttribute SavePasswordRequest savePasswordRequest,

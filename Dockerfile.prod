@@ -1,10 +1,16 @@
 # ===== BUILD STAGE =====
-FROM ghcr.io/graalvm/native-image-community:24 AS build
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /SecureVault
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar /SecureVault/opentelemetry-javaagent.jar
 
-# Install tools
-RUN microdnf install -y findutils tar gzip
+
+# Install tools (Debian-based image)
+RUN apt-get update && apt-get install -y \
+    findutils \
+    tar \
+    gzip \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy Maven wrapper and project files
 COPY mvnw .
@@ -19,11 +25,11 @@ RUN ./mvnw dependency:go-offline -B
 # Copy source
 COPY src src
 
-# Build native image
-RUN ./mvnw clean package -Pnative -DskipTests
+# Build JVM jar (no native/AOT)
+RUN ./mvnw clean package -DskipTests
 
 # ===== RUNTIME STAGE =====
-FROM debian:12-slim
+FROM eclipse-temurin:21-jre
 
 RUN apt-get update && apt-get install -y \
     ca-certificates \
@@ -34,17 +40,20 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 
 WORKDIR /app
 
-# Copy executable
-COPY --from=build /SecureVault/target/SecureVault /app/securevault
+# Copy jar
+COPY --from=build /SecureVault/target/*.jar /app/app.jar
+COPY --from=build /SecureVault/opentelemetry-javaagent.jar /app/otel-agent.jar
 
-RUN chmod +x /app/securevault && \
+RUN chmod +x /app/app.jar && \
     chown -R appuser:appuser /app
 
 USER appuser
 
 ENV SPRING_PROFILES_ACTIVE=production
 ENV PORT=8080
+ENV JAVA_TOOL_OPTIONS="-javaagent:/app/otel-agent.jar"
+
 
 EXPOSE 8080
 
-ENTRYPOINT ["/app/securevault"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

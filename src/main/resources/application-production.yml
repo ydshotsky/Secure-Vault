@@ -9,6 +9,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
   threads:
     virtual:
       enabled: true
@@ -17,6 +22,19 @@ spring:
       url: ${REDIS_URL}
       ssl:
         enabled: true
+    jdbc:
+      dialect: postgresql
+logging:
+  level:
+    root: INFO
+    # 1. Database Logging (SQL and Parameters)
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    # 2. Web/HTTP Request Logging
+    org.springframework.web: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    # 3. Security/Auth Debugging (if needed)
+    org.springframework.security: DEBUG
 
 server:
   servlet:
@@ -34,13 +52,28 @@ server:
     include-message: always
     include-binding-errors: always
 management:
+  info:
+    env:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics,prometheus
   metrics:
     enable:
         all: true
   tracing:
     sampling:
       probability: 1.0
+#  otlp:
+#    tracing:
+#      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces
+#      headers:
+#        Authorization: ${OTEL_EXPORTER_OTLP_HEADERS}
+#    metrics:
+#      export:
+#        url: ${OTEL_EXPORTER_OTLP_ENDPOINT}/v1/metrics
+#        headers:
+#            # This maps the Azure Env Var to the internal Spring config
+#          Authorization: ${OTEL_EXPORTER_OTLP_HEADERS}
+

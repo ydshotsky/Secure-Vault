@@ -8,13 +8,11 @@ public class CryptoUtils {
     private static final SecureRandom secureRandom = new SecureRandom();
     public static byte[] generateRandomSalt() {
         byte[] salt = new byte[SALT_LENGTH];
-        secureRandom.reseed();
         secureRandom.nextBytes(salt);
         return salt;
     }
     public static byte[] generateIV() {
         byte[] iv = new byte[IV_LENGTH];
-        secureRandom.reseed();
         secureRandom.nextBytes(iv);
         return iv;
     }

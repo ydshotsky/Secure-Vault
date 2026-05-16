@@ -7,13 +7,12 @@
 <body>
 <div class="container">
     <h1>Sign Up</h1>
-
+    <span id="username-status"></span>
     <form method="post" th:action="@{/signup}" th:object="${user}">
         <div>
             <label for="username">Username</label>
-            <input id="username" name="username" required type="text"/>
+            <input id="username" name="username" required type="text" autocomplete="off"/>
         </div>
-        <span id="username-status"></span>
         <div>
             <label for="password">Password</label>
             <input id="password" name="password" required type="password"/>

@@ -18,15 +18,7 @@ import java.time.LocalDate;
 public class VaultPassword {
 
     @Id
-    @SequenceGenerator(
-            name = "vault_password_seq",
-            sequenceName = "vault_password_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "vault_password_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // Username used on the external site
@@ -43,6 +35,7 @@ public class VaultPassword {
     @Column(nullable = false, columnDefinition = "BYTEA")
     private byte[] iv;
 
+    @Column(columnDefinition = "TEXT")
     private String siteUrl;
 
     private LocalDate createdAt;
