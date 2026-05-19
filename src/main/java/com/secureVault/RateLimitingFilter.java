@@ -17,23 +17,27 @@ import java.io.IOException;
 public class RateLimitingFilter extends OncePerRequestFilter {
     private final RateLimiterService rateLimiterService;
 
-    private static int MAX_REQUESTS_PER_MINUTE = 50;
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws IOException, ServletException {
         String uri = request.getRequestURI();
+        int maxRequestsPerMinute = 100; // Increased default for general assets
+        String bucket = "general";
 
         if (uri.startsWith("/vault/")) {
-            MAX_REQUESTS_PER_MINUTE = 3;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
+            bucket = "vault";
+            maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
         } else if (uri.startsWith("/auth/")) {
-            MAX_REQUESTS_PER_MINUTE = 5;  // Block account creation botnets and brute-force
-        }
-        else if (uri.startsWith("/password/")) {
-            MAX_REQUESTS_PER_MINUTE = 40;
+            bucket = "auth";
+            maxRequestsPerMinute = 10; // Increased slightly to accommodate login + initial redirects
+        } else if (uri.startsWith("/password/")) {
+            bucket = "password";
+            maxRequestsPerMinute = 40;
+        } else if (uri.startsWith("/css/") || uri.startsWith("/js/") || uri.startsWith("/images/")) {
+            bucket = "static";
+            maxRequestsPerMinute = 200; // Very high limit for static assets
         }
 
         // Logic to prevent bot overwhelm and ensure server stability
@@ -43,7 +47,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         if(clientIp!=null&&clientIp.contains(","))
             clientIp = clientIp.split(",")[0].trim();
-        boolean isAllowed=rateLimiterService.isAllowed(clientIp,MAX_REQUESTS_PER_MINUTE);
+        boolean isAllowed=rateLimiterService.isAllowed(clientIp, bucket, maxRequestsPerMinute);
 
         if (!isAllowed) {
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
