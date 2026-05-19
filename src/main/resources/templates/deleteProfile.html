@@ -26,7 +26,7 @@
     deleteAccount.addEventListener('click',async (e) => {
         e.preventDefault();
         const password=document.getElementById('login-password').value;
-        const res=await fetch("/delete-all",{
+        const res=await fetch("/auth/delete-all",{
             method: 'DELETE',
             headers: {
                 [csrfHeader]:csrfToken,
@@ -36,10 +36,10 @@
             body:JSON.stringify({password:password}),
         });
         if (res.status === 302||res.status === 0){
-            window.location.replace("/login?sessionExpired=true");
+            window.location.replace("/auth/login?sessionExpired=true");
         }
         else if (res.status === 200){
-            window.location.replace("/login?accountDeleted=true");
+            window.location.replace("/auth/login?accountDeleted=true");
         }
         else if (res.status === 401){
             alert("incorrect credentials");

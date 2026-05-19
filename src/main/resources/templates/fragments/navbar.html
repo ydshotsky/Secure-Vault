@@ -5,7 +5,7 @@
     <a th:href="@{/password/password-list}">My Passwords</a>
     <a th:href="@{/password/search-password}">Search Password</a>
     <a id="logout" th:href="@{/logout}">Logout</a>
-    <a th:href="@{/delete-all}">Delete Account</a>
+    <a th:href="@{/auth/delete-all}">Delete Account</a>
     <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;"></form>
     <script th:inline="javascript">
         document.getElementById("logout").onclick = function(e){

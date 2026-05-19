@@ -2,7 +2,7 @@
 
 ## What Was Updated
 
-Your SecureVault project is now fully configured for **Azure Container deployment** with **Grafana Cloud observability**.
+Your SecureVault project is now configured for **Azure Container deployment** with **Grafana Cloud observability**.
 
 ### Files Created / Updated:
 
@@ -16,10 +16,9 @@ Your SecureVault project is now fully configured for **Azure Container deploymen
    - ✅ Proper logging configuration
 
 #### 2. **Dockerfile.prod** (Updated)
-   - ✅ Added curl for health checks
-   - ✅ Added HEALTHCHECK instruction for Azure
-   - ✅ Added helpful comments for cloud deployment
-   - ✅ Multi-stage GraalVM build (super lightweight)
+   - ✅ JVM-based multi-stage build (Temurin 21 JDK/JRE)
+   - ✅ Builds runnable JAR (no native/AOT during docker build)
+   - ✅ Non-root runtime user
 
 #### 3. **AZURE_DEPLOYMENT.md** (NEW)
    - Complete step-by-step Azure deployment guide
@@ -35,41 +34,27 @@ Your SecureVault project is now fully configured for **Azure Container deploymen
    - Speeds up Docker builds by excluding unnecessary files
    - Reduces image build time by ~30-50%
 
-#### 5. **.env.example** (NEW)
-   - Template for environment variables
-   - Shows all required variables for local and cloud
-   - Easy copy-paste for local development
-
-#### 6. **docker-compose.yml** (NEW)
-   - Complete local development stack
-   - PostgreSQL + Redis + SecureVault app
-   - Health checks and auto-restart
-   - Ready to run: `docker-compose up`
+#### 5. **.env.development / .env.production** (NEW)
+   - Environment variable templates for local and cloud usage
+   - Shows required variables for database, Redis, and OTLP
 
 ---
 
 ## Quick Start Guide
 
-### Local Development (Using Docker Compose)
+### Local Development
+
+Option A: Run with Maven (recommended for dev)
 
 ```bash
-cd E:\hk\gith\SecureVault
-docker-compose up -d
+# Set environment variables from .env.development, then run
+mvnw spring-boot:run -Dspring.profiles.active=development
 ```
 
-Then access:
-- App: `http://localhost:8080`
-- Postgres: `localhost:5432`
-- Redis: `localhost:6379`
+Option B: Build a container image (production profile)
 
-View logs:
 ```bash
-docker-compose logs -f securevault
-```
-
-Stop everything:
-```bash
-docker-compose down
+docker build -f Dockerfile.prod -t securevault:prod .
 ```
 
 ---
@@ -92,11 +77,11 @@ docker-compose down
 3. **For production deployment, you'll set these environment variables:**
    ```
    SPRING_PROFILES_ACTIVE=production
-   SPRING_DATASOURCE_URL=<from Key Vault>
-   SPRING_DATASOURCE_USERNAME=<from Key Vault>
-   SPRING_DATASOURCE_PASSWORD=<from Key Vault>
-   SPRING_DATA_REDIS_URL=<from Key Vault>
-   OTEL_EXPORTER_OTLP_ENDPOINT_TRACES=<Grafana endpoint>
+   DATABASE_URL=<from Key Vault>
+   DATABASE_USERNAME=<from Key Vault>
+   DATABASE_PASSWORD=<from Key Vault>
+   REDIS_URL=<from Key Vault>
+   OTEL_EXPORTER_OTLP_ENDPOINT=<Grafana endpoint base>
    OTEL_EXPORTER_OTLP_HEADERS=<Grafana auth token>
    ```
 
@@ -107,13 +92,13 @@ docker-compose down
 ```
 ┌──────────────────────────┐
 │  Your Local Machine      │
-│  - IDE / Docker Desktop  │
-│  - docker-compose up     │
+│  - IDE / Maven           │
+│  - Docker build (prod)   │
 └──────────┬───────────────┘
            │
-           ├─ POStgresQL (5432)
-           ├─ Redis (6379)
-           └─ SecureVault (8080)
+           ├─ PostgreSQL
+           ├─ Redis
+           └─ SecureVault
 
 ┌──────────────────────────────┐
 │  Azure Cloud                 │
@@ -139,9 +124,9 @@ docker-compose down
 ## Key Features
 
 ### Performance
-- ⚡ **GraalVM Native Image**: 100ms startup (vs 2-5 seconds JVM)
-- 💾 **Lightweight**: ~50-100MB memory vs 200-300MB with JVM
-- 📦 **Small Container**: ~200MB image vs 500MB+
+- ⚡ JVM-based container (Temurin 21)
+- 💾 Predictable memory footprint
+- 📦 Standard container build (no native image build step)
 
 ### Security
 - 🔐 Non-root Docker user
@@ -169,8 +154,8 @@ docker-compose down
 
 ### 1. **Test Locally**
 ```bash
-docker-compose up -d
-curl http://localhost:8080/actuator/health
+# Run locally with development profile
+mvnw spring-boot:run -Dspring.profiles.active=development
 ```
 
 ### 2. **Deploy to Azure** (See AZURE_DEPLOYMENT.md)
@@ -193,11 +178,11 @@ curl http://localhost:8080/actuator/health
 
 | File | Purpose |
 |------|---------|
-| `application-production.yml` | Production configuration with optimization |
-| `Dockerfile.prod` | Production native image build for Azure |
+| `src/main/resources/application-production.yml` | Production configuration |
+| `Dockerfile.prod` | Production JVM build for Azure |
 | `.dockerignore` | Speeds up Docker builds |
-| `.env.example` | Environment variables template |
-| `docker-compose.yml` | Local development stack |
+| `.env.development` | Local development env template |
+| `.env.production` | Production env template |
 | `AZURE_DEPLOYMENT.md` | Complete Azure deployment guide |
 
 ---
@@ -205,13 +190,8 @@ curl http://localhost:8080/actuator/health
 ## Common Commands
 
 ```bash
-# Local development
-docker-compose up -d                          # Start stack
-docker-compose logs -f securevault            # View app logs
-docker-compose down                           # Stop stack
-
-# Build Docker image
-docker build -f Dockerfile.prod -t app:latest  .
+# Build production Docker image
+docker build -f Dockerfile.prod -t app:latest .
 
 # Push to Azure
 az acr login --name myregistry
@@ -221,8 +201,7 @@ docker push myregistry.azurecr.io/app:latest
 docker ps -a
 
 # Clean up
-docker-compose down -v                        # Remove volumes
-docker image prune                            # Clean images
+docker image prune
 ```
 
 ---
@@ -230,13 +209,13 @@ docker image prune                            # Clean images
 ## Support & Troubleshooting
 
 **App won't start locally?**
-- Check `docker-compose logs securevault`
+- Check environment variables from `.env.development`
 - Ensure port 8080 is not in use
 - Verify Docker has enough memory
 
 **Can't connect to database?**
-- Check PostgreSQL is running: `docker ps`
-- Verify connection string in `.env`
+- Verify connection string in `.env.development` or Azure Key Vault
+- Ensure PostgreSQL is reachable
 
 **No metrics in Grafana?**
 - Verify OTLP endpoint is correct
@@ -251,4 +230,3 @@ docker image prune                            # Clean images
 You're all set! For detailed Azure deployment instructions, see **AZURE_DEPLOYMENT.md**.
 
 Questions? Check the guide or environment files for examples.
-

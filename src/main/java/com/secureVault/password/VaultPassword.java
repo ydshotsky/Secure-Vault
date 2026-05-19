@@ -21,6 +21,8 @@ public class VaultPassword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Integer version;
     // Username used on the external site
     private String siteUsername;
 

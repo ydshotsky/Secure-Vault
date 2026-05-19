@@ -1,5 +1,6 @@
 package com.secureVault.configuration;
 
+import com.secureVault.RateLimitingFilter;
 import com.secureVault.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @EnableWebSecurity
@@ -47,32 +49,34 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RateLimitingFilter rateLimitingFilter) throws Exception {
         http
                 .httpBasic(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/actuator/**",
-                                "/signup",
-                                "/login",
+                                "/auth/login",
+                                "/auth/signup",
                                 "/css/**",
                                 "/users/username-availability",
                                 "/js/signup.js")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/", true)
-                        .failureUrl("/login?error=true"))
+                        .failureUrl("/auth/login?error=true"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .addLogoutHandler((request, response, authentication) -> {
                             if (authentication != null && authentication.getName() != null)
                                 redisService.clearCachedPasswordList(authentication.getName());
                         })
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"));
+                        .deleteCookies("JSESSIONID"))
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }

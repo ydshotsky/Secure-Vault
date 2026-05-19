@@ -87,4 +87,13 @@ public class VaultController {
         session.removeAttribute("VAULT_KEY");
         session.removeAttribute("VAULT_UNLOCKED_AT");
     }
+
+    @PostMapping("/is-unlocked")
+    public ResponseEntity<Boolean> isVaultUnlocked(HttpSession session) {
+        SessionKeyHolder sessionKeyHolder = (SessionKeyHolder) session.getAttribute("VAULT_KEY");
+        if (sessionKeyHolder != null && sessionKeyHolder.getSecretKey()!= null) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.ok(false);
+    }
 }

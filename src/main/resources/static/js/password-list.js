@@ -1,4 +1,17 @@
 let revealedStatus = {};
+const csrftoken = document.querySelector('meta[name="_csrf"]').content;
+const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+function isVaultLocked(){
+   const url='/vault/is-unlocked';
+
+   const res=fetch(url,{
+       method: 'GET',
+   headers:{
+           [csrfHeader]:csrfToken
+   }});
+   return res.data === true;
+}
 
 async function revealPassword(id) {
     if (revealedStatus[id]) {
@@ -7,8 +20,6 @@ async function revealPassword(id) {
         return;
     }
     const url = `/password/reveal/${id}`;
-    const csrftoken = document.querySelector('meta[name="_csrf"]').content;
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
     try {
         const res = await fetch(url, {
             method: "POST",
@@ -32,11 +43,8 @@ async function revealPassword(id) {
 
 async function deletePassword(id) {
     const url = `/password/delete/${id}`;
-    const res=confirm("Are you sure you want to delete this password?");
-    if (!res)return;
-    const csrftoken = document.querySelector('meta[name="_csrf"]').content;
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-
+    const res = confirm("Are you sure you want to delete this password?");
+    if (!res) return;
     try {
         const res = await fetch(url, {
             method: "DELETE",
@@ -55,4 +63,50 @@ async function deletePassword(id) {
     }
 
 
+}
+
+async function editPassword(id) {
+    const row = document.getElementById("row" + id);
+    if (!row) {
+        alert("Row not found for edit.");
+        return;
+    }
+    const password = prompt("New password:", "");
+    if (password === null || password.trim() === "") {
+        alert("Password is required.");
+        return;
+    }
+
+    const url = `/password/edit/${id}`;
+    try {
+        const res = await fetch(url, {
+            method: "PUT",
+            headers: {
+                [csrfHeader]: csrftoken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                password: password
+            })
+        });
+
+        if (res.ok) {
+            alert("password updated successfully.");
+        } else if (res.status === 423) {
+            showUnlockModal();
+            alert("you can now update your password.");
+        } else {
+            const contentType = res.headers.get("content-type");
+            const errorText = await res.text();
+            if (contentType && contentType.includes("text/html")) {
+                document.open();
+                document.write(errorText);
+                document.close();
+            } else {
+                alert(errorText || "Failed to update password.");
+            }
+        }
+    } catch (error) {
+        console.error("Failed to update password:", error);
+    }
 }

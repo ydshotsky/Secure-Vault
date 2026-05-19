@@ -21,7 +21,7 @@
         <p style="color:green;">Your session has expired. Please log in again to continue. </p>
     </div>
 
-    <form method="post" th:action="@{/login}">
+    <form method="post" th:action="@{/auth/login}">
         <div>
             <label for="username">Username</label>
             <input id="username" name="username" required type="text"/>
@@ -35,7 +35,7 @@
         <button type="submit">Login</button>
     </form>
 
-    <p>Don't have an account? <a th:href="@{/signup}">Sign up here</a></p>
+    <p>Don't have an account? <a th:href="@{/auth/signup}">Sign up here</a></p>
 </div>
 </body>
 </html>

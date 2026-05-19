@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -230,5 +233,86 @@ public class VaultPasswordController {
         vaultService.deletePasswordById(id);
         redisService.clearCachedPasswordList(authentication.getName());
         return ResponseEntity.ok("password deleted successfully");
+    }
+
+    @PutMapping("/edit/{id}")
+    @VaultUnlockedRequired
+    public ResponseEntity<String> editPassword(
+            @PathVariable("id") Long id,
+            @RequestBody Map<String, String> editPasswordRequest,
+            HttpSession session,
+            Authentication authentication) throws InterruptedException {
+
+        if (!cpuBudget.tryAcquire(100, TimeUnit.MILLISECONDS)) {
+            return ResponseEntity
+                    .status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body("server is busy, please try again later");
+        }
+
+        SessionKeyHolder sessionKeyHolder = getActiveVaultKey(session);
+        if (sessionKeyHolder == null) {
+            cpuBudget.release();
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body("vault is locked, please enter master key");
+        }
+
+        VaultPassword vaultPassword = vaultService.findPasswordById(id).orElse(null);
+        if (vaultPassword == null) {
+            cpuBudget.release();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        String username = authentication.getName();
+        if (!vaultPassword.getUser().getUsername().equals(username)) {
+            cpuBudget.release();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        if (editPasswordRequest.get("password") == null || editPasswordRequest.get("password").isBlank()) {
+            cpuBudget.release();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("password is required");
+        }
+//
+//        vaultPassword.setSiteUrl(editPasswordRequest.getSiteUrl());
+//        vaultPassword.setSiteUsername(editPasswordRequest.getSiteUsername());
+//        vaultPassword.setPhoneNumber(editPasswordRequest.getPhoneNumber());
+//        vaultPassword.setCreatedAt(editPasswordRequest.getCreatedAt());
+//        vaultPassword.setEmail(editPasswordRequest.getEmail());
+//        vaultPassword.setNotes(editPasswordRequest.getNotes());
+
+        SecretKey key = sessionKeyHolder.getSecretKey();
+        try {
+            Future<EncryptionResult> encryptionResultFuture = cpuPool
+                    .submit(() -> {
+                                try {
+                                    return AesGcmUtil
+                                            .encrypt(editPasswordRequest
+                                                            .get("password")
+                                                            .getBytes(),
+                                                    key);
+                                } finally {
+                                    cpuBudget.release();
+                                }
+                            }
+                    );
+            EncryptionResult encryptionResult = encryptionResultFuture.get();
+            vaultPassword.setEncryptedPassword(encryptionResult.encryptedPassword());
+            vaultPassword.setIv(encryptionResult.iv());
+        } catch (InterruptedException | ExecutionException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("error updating password");
+        }
+        System.out.println("new password: "+editPasswordRequest.get("password"));
+//        try {
+            vaultService.savePassword(vaultPassword);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("error saving password");
+//        }
+
+        redisService.clearCachedPasswordList(username);
+        return ResponseEntity.ok("password updated successfully");
     }
 }
