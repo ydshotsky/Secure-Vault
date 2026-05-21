@@ -1,5 +1,7 @@
 package com.secureVault;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,9 +15,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class RateLimitingFilter extends OncePerRequestFilter {
     private final RateLimiterService rateLimiterService;
+    private final Counter blockedRequests;
+
+
+    public RateLimitingFilter(RateLimiterService rateLimiterService, MeterRegistry meterRegistry) {
+
+        this.rateLimiterService = rateLimiterService;
+        this.blockedRequests =Counter.builder("securevault.requests.blocked")
+                .description("Tracks the number of malicious or abusive requests dropped by the Redis rate limiter")
+                .tag("layer", "security_filter")
+                .register(meterRegistry);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -50,6 +62,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         boolean isAllowed=rateLimiterService.isAllowed(clientIp, bucket, maxRequestsPerMinute);
 
         if (!isAllowed) {
+            blockedRequests.increment();
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             String acceptHeader = request.getHeader("Accept");
             if (acceptHeader != null && acceptHeader.contains("text/html")) {
