@@ -25,7 +25,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     public RateLimitingFilter(RateLimiterService rateLimiterService, MeterRegistry meterRegistry) {
 
         this.rateLimiterService = rateLimiterService;
-        this.blockedRequests = Counter.builder("securevault.requests.blocked")
+        this.blockedRequests = Counter.builder("secureVault.requests.blocked")
                 .description("Tracks the number of malicious or abusive requests dropped by the Redis rate limiter")
                 .tag("layer", "security_filter")
                 .register(meterRegistry);
@@ -46,7 +46,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 //            maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
         } else if (uri.startsWith("/auth/")) {
             bucket = "auth";
-            maxRequestsPerMinute = 10;
+//            maxRequestsPerMinute = 10;
         } else if (uri.startsWith("/password/")) {
             bucket = "password";
 //            maxRequestsPerMinute = 40;
