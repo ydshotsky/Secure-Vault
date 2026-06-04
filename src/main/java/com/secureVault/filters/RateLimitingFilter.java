@@ -50,7 +50,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         } else if (uri.startsWith("/password/")) {
             bucket = "password";
 //            maxRequestsPerMinute = 40;
-        } else if (uri.startsWith("/css/") || uri.startsWith("/js/") || uri.startsWith("/images/")) {
+        } else if (uri.startsWith("/css/") || uri.startsWith("/js/") || uri.startsWith("/images/") || uri.equals("/favicon.ico")) {
             bucket = "static";
             maxRequestsPerMinute = 200; // Very high limit for static assets
         }
@@ -83,5 +83,3 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     }
 
 }
-
-

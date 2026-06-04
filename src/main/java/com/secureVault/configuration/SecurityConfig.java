@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/auth/signup",
                                 "/css/**",
+                                "/favicon.ico",
                                 "/users/username-availability",
                                 "/js/signup.js")
                         .permitAll()
