@@ -64,7 +64,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
             clientIp = clientIp.split(",")[0].trim();
         boolean isAllowed = rateLimiterService.isAllowed(clientIp, bucket, maxRequestsPerMinute);
 
-        log.info("Rate limit check: [{} {}] from IP: {} - Allowed: {}", method, uri, clientIp, isAllowed);
+        log.info("Rate limit check: bucket:{} [{} {}] from IP: {} - Allowed: {}", bucket, method, uri, clientIp, isAllowed);
 
         if (!isAllowed) {
             blockedRequests.increment();
@@ -83,3 +83,5 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     }
 
 }
+
+
