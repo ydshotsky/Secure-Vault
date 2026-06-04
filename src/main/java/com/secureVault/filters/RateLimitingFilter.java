@@ -46,7 +46,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 //            maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
         } else if (uri.startsWith("/auth/")) {
             bucket = "auth";
-//            maxRequestsPerMinute = 10;
+            maxRequestsPerMinute = 10;
         } else if (uri.startsWith("/password/")) {
             bucket = "password";
 //            maxRequestsPerMinute = 40;
