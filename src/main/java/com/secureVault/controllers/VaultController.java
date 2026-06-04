@@ -1,6 +1,5 @@
 package com.secureVault.controllers;
 
-import com.secureVault.configuration.CpuBudget;
 import com.secureVault.security.crypto.KeyDerivationUtil;
 import com.secureVault.security.session.SessionKeyHolder;
 import com.secureVault.user.User;
@@ -22,7 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,35 +30,27 @@ public class VaultController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ExecutorService cpuPool;
-    private final CpuBudget cpuBudget;
 
     @PostMapping("/unlock")
     public ResponseEntity<Boolean> unlockVault(
             @RequestBody Map<String, String> payload,
             HttpSession session,
             Authentication authentication
-    ) throws InterruptedException {
+    ) {
 
         if(!authentication.isAuthenticated())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        if(!cpuBudget.tryAcquire(200, TimeUnit.MILLISECONDS))
-            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         User user = userRepository
                 .findByUsername(authentication.getName())
                 .orElseThrow();
         SecretKey key;
         try {
             Future<SecretKey> secretKeyFuture = cpuPool.submit(() -> {
-                try {
                 if (!passwordEncoder.matches(payload.get("password"), user.getPassword()))
                     return null;
                 return KeyDerivationUtil.deriveAesKey(
                         payload.get("password").toCharArray(),
                         user.getKdfSalt());
-                }
-                finally {
-                    cpuBudget.release();
-                }
             });
             key=secretKeyFuture.get();
         }

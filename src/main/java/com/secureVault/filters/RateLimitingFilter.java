@@ -1,12 +1,13 @@
-package com.secureVault;
+package com.secureVault.filters;
 
+import com.secureVault.RateLimiterService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class RateLimitingFilter extends OncePerRequestFilter {
     private final RateLimiterService rateLimiterService;
     private final Counter blockedRequests;
@@ -23,7 +25,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     public RateLimitingFilter(RateLimiterService rateLimiterService, MeterRegistry meterRegistry) {
 
         this.rateLimiterService = rateLimiterService;
-        this.blockedRequests =Counter.builder("securevault.requests.blocked")
+        this.blockedRequests = Counter.builder("securevault.requests.blocked")
                 .description("Tracks the number of malicious or abusive requests dropped by the Redis rate limiter")
                 .tag("layer", "security_filter")
                 .register(meterRegistry);
@@ -35,6 +37,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws IOException, ServletException {
         String uri = request.getRequestURI();
+        String method = request.getMethod();
         int maxRequestsPerMinute = 100; // Increased default for general assets
         String bucket = "general";
 
@@ -43,7 +46,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
             maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
         } else if (uri.startsWith("/auth/")) {
             bucket = "auth";
-            maxRequestsPerMinute = 10; // Increased slightly to accommodate login + initial redirects
+            maxRequestsPerMinute = 10;
         } else if (uri.startsWith("/password/")) {
             bucket = "password";
             maxRequestsPerMinute = 40;
@@ -54,12 +57,14 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         // Logic to prevent bot overwhelm and ensure server stability
         String clientIp = request.getHeader("X-Forwarded-For");
-        if (clientIp==null||clientIp.isEmpty())
+        if (clientIp == null || clientIp.isEmpty())
             clientIp = request.getRemoteAddr();
 
-        if(clientIp!=null&&clientIp.contains(","))
+        if (clientIp != null && clientIp.contains(","))
             clientIp = clientIp.split(",")[0].trim();
-        boolean isAllowed=rateLimiterService.isAllowed(clientIp, bucket, maxRequestsPerMinute);
+        boolean isAllowed = rateLimiterService.isAllowed(clientIp, bucket, maxRequestsPerMinute);
+
+        log.info("Rate limit check: [{} {}] from IP: {} - Allowed: {}", method, uri, clientIp, isAllowed);
 
         if (!isAllowed) {
             blockedRequests.increment();

@@ -1,6 +1,7 @@
 package com.secureVault.configuration;
 
-import com.secureVault.RateLimitingFilter;
+import com.secureVault.filters.AdmissionControlFilter;
+import com.secureVault.filters.RateLimitingFilter;
 import com.secureVault.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +50,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, RateLimitingFilter rateLimitingFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RateLimitingFilter rateLimitingFilter,AdmissionControlFilter admissionControlFilter) throws Exception {
         http
                 .httpBasic(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
@@ -75,7 +76,8 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(admissionControlFilter, RateLimitingFilter.class);
 
         return http.build();
     }

@@ -27,7 +27,7 @@ public class RateLimiterService {
                     "  return 1 " +
                     "end";
 
-    boolean isAllowed(String clientIp, String bucket, int maxRequestsPerMinute) {
+    public boolean isAllowed(String clientIp, String bucket, int maxRequestsPerMinute) {
         String key = "rate:limit:" + bucket + ":" + clientIp;
         DefaultRedisScript<Long> script = new DefaultRedisScript<>(LUA_SCRIPT, Long.class);
         Long result = redisTemplate.execute(script,
@@ -35,7 +35,6 @@ public class RateLimiterService {
                 String.valueOf(maxRequestsPerMinute));
 
         return result == 1;
-
     }
 
 

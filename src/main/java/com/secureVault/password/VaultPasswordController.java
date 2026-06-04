@@ -10,7 +10,6 @@ import com.secureVault.security.session.SessionKeyHolder;
 import com.secureVault.user.User;
 import com.secureVault.user.UserService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
 import java.security.Principal;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -55,12 +52,7 @@ public class VaultPasswordController {
             @PathVariable Long id,
             HttpSession session,
             Principal principal
-    ) throws InterruptedException {
-        if (!cpuBudget.tryAcquire(100, TimeUnit.MILLISECONDS)) {
-            return ResponseEntity
-                    .status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body("server is busy, please try again later");
-        }
+    ) {
         SessionKeyHolder sessionKeyHolder = getActiveVaultKey(session);
         if (sessionKeyHolder == null) {
             return ResponseEntity
@@ -79,17 +71,12 @@ public class VaultPasswordController {
 
         try {
 
-            Future<String> decryptedPasswordFuture = cpuPool.submit(() -> {
-                        try {
-                            return AesGcmUtil.decrypt(
+            Future<String> decryptedPasswordFuture = cpuPool.submit(() -> 
+                            AesGcmUtil.decrypt(
                                     password.getEncryptedPassword(),
                                     password.getIv(),
                                     sessionKeyHolder.getSecretKey()
-                            );
-                        } finally {
-                            cpuBudget.release();
-                        }
-                    }
+                            )
             );
             String decryptedPassword = decryptedPasswordFuture.get();
             return ResponseEntity.ok(decryptedPassword);
@@ -192,7 +179,7 @@ public class VaultPasswordController {
     }
 
     @GetMapping("/search-password")
-    public String searchPassword(@RequestParam(value = "keyword", required = false) String keyword, Model model, Authentication authentication) throws ExecutionException, InterruptedException {
+    public String searchPassword(@RequestParam(value = "keyword", required = false) String keyword, Model model, Authentication authentication) {
         if (keyword == null || keyword.trim().isEmpty()) {
             model.addAttribute("message", "Please enter a keyword to search.");
             return "search-password";

@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/RateLimitingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/RateLimitingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/RateLimiterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/RateLimiterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/RateLimitingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/filters/RateLimitingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/VaultController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/controllers/VaultController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/secureVault/password/VaultPasswordController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +33,7 @@
       <list>
         <option value="JavaScript File" />
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -41,12 +46,12 @@
     &quot;assignee&quot;: &quot;ydshotsky&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ydshotsky/Secure-Vault.git",
-    "accountId": "c724568f-20cf-46b5-a07d-8c71a19d9cb8"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ydshotsky/Secure-Vault.git&quot;,
+    &quot;accountId&quot;: &quot;c724568f-20cf-46b5-a07d-8c71a19d9cb8&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -186,12 +191,27 @@
       <workItem from="1778831238860" duration="8297000" />
       <workItem from="1778858332142" duration="1599000" />
       <workItem from="1778914190070" duration="1474000" />
-      <workItem from="1779109664400" duration="27304000" />
+      <workItem from="1779109664400" duration="33516000" />
+      <workItem from="1780337920576" duration="1093000" />
+      <workItem from="1780395021668" duration="2072000" />
+      <workItem from="1780402802405" duration="4984000" />
+      <workItem from="1780482555374" duration="4010000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
