@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.HeaderWriterFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @EnableWebSecurity
@@ -77,7 +78,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(rateLimitingFilter, HeaderWriterFilter.class)
                 .addFilterAfter(admissionControlFilter, RateLimitingFilter.class);
 
         return http.build();

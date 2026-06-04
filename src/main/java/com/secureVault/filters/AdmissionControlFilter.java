@@ -31,7 +31,7 @@ public class AdmissionControlFilter extends OncePerRequestFilter {
         if(uri.equals("/auth/login")&&method.equals("POST")) {
             timeout=500;
         }
-        if(uri.startsWith("password/reveal/")&&method.equals("POST")) {
+        if(uri.startsWith("/password/reveal/")&&method.equals("POST")) {
             timeout=100;
         }
         if(uri.equals("/vault/unlock")&&method.equals("POST")) {
