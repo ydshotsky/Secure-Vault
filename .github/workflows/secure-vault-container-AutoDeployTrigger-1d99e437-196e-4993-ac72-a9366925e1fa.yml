@@ -4,19 +4,19 @@ name: Trigger auto deployment for secure-vault-container
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
+    branches:
       [ main ]
     paths:
-    - '**'
-    - '.github/workflows/secure-vault-container-AutoDeployTrigger-1d99e437-196e-4993-ac72-a9366925e1fa.yml'
+      - '**'
+      - '.github/workflows/secure-vault-container-AutoDeployTrigger-1d99e437-196e-4993-ac72-a9366925e1fa.yml'
 
   # Allow manual trigger 
-  workflow_dispatch:      
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -36,8 +36,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}
           dockerfilePath: Dockerfile.prod
-#          _dockerfilePathKey_: _dockerfilePath_
-#          _targetLabelKey_: _targetLabel_
+          #          _dockerfilePathKey_: _dockerfilePath_
+          #          _targetLabelKey_: _targetLabel_
           registryUrl: acrsecurevultprod-fabudmgwayb2enc2.azurecr.io
           registryUsername: ${{ secrets.SECUREVAULTCONTAINER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.SECUREVAULTCONTAINER_REGISTRY_PASSWORD }}
@@ -47,9 +47,19 @@ jobs:
           revisionSuffix: rev${{ github.run_number }}
           targetPort: 8080
           ingress: external
-#          _buildArgumentsKey_: |
-#            _buildArgumentsValues_
+          #          _buildArgumentsKey_: |
+          #            _buildArgumentsValues_
           # Custom Scaling Configuration
+      - name: Configure Scaling and Replicas
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az containerapp update \
+              --name secure-vault-container \
+              --resource-group rg-secure-vault \
+              --min-replicas 1 \
+              --max-replicas 2 \
+              --set-scaling-rules cpu-scaling-rule=cpu:70
           minReplicas: 1
           maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
 
