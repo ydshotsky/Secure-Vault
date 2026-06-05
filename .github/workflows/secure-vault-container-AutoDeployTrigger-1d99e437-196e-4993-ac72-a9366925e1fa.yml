@@ -44,8 +44,8 @@ jobs:
           containerAppName: secure-vault-container
           resourceGroup: rg-secure-vault
           imageToBuild: acrsecurevultprod-fabudmgwayb2enc2.azurecr.io/secure-vault-container:${{ github.sha }}
-#          targetPort: 8080
-#          ingress: external
+          targetPort: 8080
+          ingress: external
 #          _buildArgumentsKey_: |
 #            _buildArgumentsValues_
           # Custom Scaling Configuration
