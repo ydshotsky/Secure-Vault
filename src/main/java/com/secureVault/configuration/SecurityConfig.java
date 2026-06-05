@@ -78,8 +78,9 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-                .addFilterBefore(rateLimitingFilter, HeaderWriterFilter.class)
-                .addFilterAfter(admissionControlFilter, RateLimitingFilter.class);
+//                .addFilterBefore(rateLimitingFilter, HeaderWriterFilter.class)
+//                .addFilterAfter(admissionControlFilter, RateLimitingFilter.class)
+                .addFilterBefore(admissionControlFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
