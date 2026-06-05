@@ -53,11 +53,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            
-            az containerapp show \
-              --name secure-vault-container \
-              --resource-group rg-secure-vault \
-              --query properties.template.scale
             az extension add --name containerapp --upgrade
             az containerapp update \
               --name secure-vault-container \
@@ -66,7 +61,9 @@ jobs:
               --max-replicas 2 \
               --scale-rule-name cpu-scaling-rule \
               --scale-rule-type cpu \
-              --scale-rule-metadata value=70
+              --scale-rule-metadata "type=Utilization" "value=70"
+            
+
 #          minReplicas: 1
 #          maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
 
