@@ -80,7 +80,9 @@ public class RateLimitingFilter extends OncePerRequestFilter {
             }
             return;
         }
+
         filterChain.doFilter(request, response);
+        log.warn("rate limiting filter executed" );
     }
 
 }

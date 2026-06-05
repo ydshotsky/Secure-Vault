@@ -51,7 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, RateLimitingFilter rateLimitingFilter,AdmissionControlFilter admissionControlFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,AdmissionControlFilter admissionControlFilter) throws Exception {
         http
                 .httpBasic(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
