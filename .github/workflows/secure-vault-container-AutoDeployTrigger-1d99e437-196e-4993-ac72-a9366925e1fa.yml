@@ -44,12 +44,14 @@ jobs:
           containerAppName: secure-vault-container
           resourceGroup: rg-secure-vault
           imageToBuild: acrsecurevultprod-fabudmgwayb2enc2.azurecr.io/secure-vault-container:${{ github.sha }}
+          targetPort: 8080
+          ingress: external
           _buildArgumentsKey_: |
             _buildArgumentsValues_
           # Custom Scaling Configuration
           minReplicas: 1
           maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
-    
+
           # Define KEDA Scale Rule via action arguments
           scaleRuleName: cpu-scaling-rule
           scaleRuleType: cpu
