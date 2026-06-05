@@ -44,7 +44,6 @@ jobs:
           containerAppName: secure-vault-container
           resourceGroup: rg-secure-vault
           imageToBuild: acrsecurevultprod-fabudmgwayb2enc2.azurecr.io/secure-vault-container:${{ github.sha }}
-          revisionSuffix: rev${{ github.run_number }}
           targetPort: 8080
           ingress: external
           #          _buildArgumentsKey_: |
@@ -54,7 +53,8 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az containerapp update 
+            az extension add --name containerapp --upgrade
+            az containerapp update
               --name secure-vault-container 
               --resource-group rg-secure-vault 
               --min-replicas 1 
