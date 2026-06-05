@@ -54,20 +54,22 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az containerapp update \
-              --name secure-vault-container \
-              --resource-group rg-secure-vault \
-              --min-replicas 1 \
-              --max-replicas 2 \
-              --set-scaling-rules cpu-scaling-rule=cpu:70
-          minReplicas: 1
-          maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
+            az containerapp update 
+              --name secure-vault-container 
+              --resource-group rg-secure-vault 
+              --min-replicas 1 
+              --max-replicas 2 
+              --scale-rule-name cpu-scaling-rule 
+              --scale-rule-type cpu 
+              --scale-rule-metadata value=70
+#          minReplicas: 1
+#          maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
 
           # Define KEDA Scale Rule via action arguments
-          scaleRuleName: cpu-scaling-rule
-          scaleRuleType: cpu
-          scaleRuleMetadata: |
-            type=Utilization
-            value=70
+#          scaleRuleName: cpu-scaling-rule
+#          scaleRuleType: cpu
+#          scaleRuleMetadata: |
+#            type=Utilization
+#            value=70
 
 

@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="" />
+    <list default="true" id="9de62415-d836-4b5c-a535-3579e85fb14a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/secure-vault-container-AutoDeployTrigger-1d99e437-196e-4993-ac72-a9366925e1fa.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/secure-vault-container-AutoDeployTrigger-1d99e437-196e-4993-ac72-a9366925e1fa.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -188,7 +191,7 @@
       <workItem from="1780337920576" duration="1093000" />
       <workItem from="1780395021668" duration="2072000" />
       <workItem from="1780402802405" duration="4984000" />
-      <workItem from="1780482555374" duration="16506000" />
+      <workItem from="1780482555374" duration="17422000" />
     </task>
     <servers />
   </component>
