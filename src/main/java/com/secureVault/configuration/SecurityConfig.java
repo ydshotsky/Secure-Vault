@@ -51,7 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,AdmissionControlFilter admissionControlFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,AdmissionControlFilter admissionControlFilter,RateLimitingFilter rateLimitingFilter) throws Exception {
         http
                 .httpBasic(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
@@ -78,9 +78,8 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
-//                .addFilterBefore(rateLimitingFilter, HeaderWriterFilter.class)
-//                .addFilterAfter(admissionControlFilter, RateLimitingFilter.class)
-                .addFilterBefore(admissionControlFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(rateLimitingFilter, HeaderWriterFilter.class)
+                .addFilterAfter(admissionControlFilter, RateLimitingFilter.class);
 
         return http.build();
     }

@@ -15,8 +15,8 @@ This guide covers deploying SecureVault as a containerized app on Azure with Gra
 
 ```
 ┌─────────────────────────────────────────┐
-│   Azure Container Instances / App Service │
-│   (SecureVault Native Image)            │
+│   Azure Container Instances  │
+│   (SecureVault Image)            │
 ├─────────────────────────────────────────┤
 │  ↓ Metrics (Prometheus)                 │
 │  ↓ Traces (OpenTelemetry/OTLP)          │
@@ -273,83 +273,6 @@ Access your app:
 ```
 http://<CONTAINER_FQDN>:8080
 ```
-
----
-
-## Step 5: (Optional) Deploy to Azure App Service
-
-For more control and auto-scaling, use App Service:
-
-### 5.1 Create App Service Plan
-
-```bash
-az appservice plan create \
-  --name ASP-securevault \
-  --resource-group rg-securevault \
-  --sku B2 \
-  --is-linux
-```
-
-### 5.2 Create Web App
-
-```bash
-az webapp create \
-  --resource-group rg-securevault \
-  --plan ASP-securevault \
-  --name securevault-app \
-  --deployment-container-image-name securevaultregistry.azurecr.io/securevault:latest
-```
-
-### 5.3 Configure App Settings
-
-```bash
-az webapp config appsettings set \
-  --resource-group rg-securevault \
-  --name securevault-app \
-  --settings \
-    SPRING_PROFILES_ACTIVE=production \
-    SPRING_DATASOURCE_URL=$(az keyvault secret show --vault-name securevault-kv --name DATABASE-URL -o tsv --query value) \
-    SPRING_DATASOURCE_USERNAME=dbadmin \
-    SPRING_DATASOURCE_PASSWORD=$(az keyvault secret show --vault-name securevault-kv --name DATABASE-PASSWORD -o tsv --query value) \
-    SPRING_DATA_REDIS_URL=$(az keyvault secret show --vault-name securevault-kv --name REDIS-URL -o tsv --query value) \
-    PORT=8080
-```
-
-### 5.4 Configure Health Probe
-
-```bash
-az webapp config appsettings set \
-  --resource-group rg-securevault \
-  --name securevault-app \
-  --settings WEBSITES_HEALTHCHECK_PATH=/actuator/health
-```
-
----
-
-## Step 6: Monitor with Grafana Cloud
-
-### 6.1 Verify Metrics in Grafana
-
-1. Log into your Grafana Cloud instance
-2. Go to **Dashboards** → **New** → **Import**
-3. Search for **Spring Boot** dashboard templates
-4. Import and customize
-
-### 6.2 Create Alerts (Optional)
-
-In Grafana:
-- Set up alert rules for high error rates, CPU usage, slow queries
-- Examples:
-  ```
-  http_requests_total{status=~"5.."}  > 10
-  jvm_memory_usage_percent > 90
-  ```
-
-### 6.3 View Logs (Loki)
-
-The logback-spring.xml sends logs via `loki4j` appender:
-- Logs appear in Grafana **Explore** → **Loki**
-- Filter by labels: `app=password-manager`
 
 ---
 

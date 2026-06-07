@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-//@Component
+@Component
 @Slf4j
 
 public class RateLimitingFilter extends OncePerRequestFilter {
@@ -44,13 +44,13 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         if (uri.startsWith("/vault/")) {
             bucket = "vault";
-//            maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
+            maxRequestsPerMinute = 10;  // Tight limit for heavy cryptographic operations (PBKDF2/Argon2)
         } else if (uri.startsWith("/auth/")) {
             bucket = "auth";
-//            maxRequestsPerMinute = 10;
+            maxRequestsPerMinute = 10;
         } else if (uri.startsWith("/password/")) {
             bucket = "password";
-//            maxRequestsPerMinute = 40;
+            maxRequestsPerMinute = 40;
         } else if (uri.startsWith("/css/") || uri.startsWith("/js/") || uri.startsWith("/images/") || uri.equals("/favicon.ico")) {
             bucket = "static";
             maxRequestsPerMinute = 200; // Very high limit for static assets
