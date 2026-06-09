@@ -57,8 +57,8 @@ jobs:
             az containerapp update \
               --name secure-vault-container \
               --resource-group rg-secure-vault \
-              --min-replicas 1 \
-              --max-replicas 2 \
+              --min-replicas 0 \
+              --max-replicas 1 \
               --scale-rule-name cpu-scaling-rule \
               --scale-rule-type cpu \
               --scale-rule-metadata "type=Utilization" "value=70"

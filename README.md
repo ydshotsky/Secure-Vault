@@ -76,7 +76,7 @@ This test evaluates how tuning the "CPU Budget" impacts system stability under a
 |:---------|:-------------------|:----------------|:----------------|:--------| :--- |
 | **500**  | 8.42               | 438             | 706.99          | 0.40%   | Maximum efficiency |
 | **750**  | 12.56              | 909             | 998.49          | 18.27%  | Load shedding begins |
-| **1000** | 16.85              | 1020.85         | 1190.99         | 51.3%   | Transparent scaling to edge |
+| **1000** | 16.92              | 931.95          | 1017.94         | 42%     | Transparent scaling to edge |
 | **1500** | 24.92              | 1005            | 1221.91         | 65.67%  | Core system protection active |
 | **2000** | 34.63              | 992.95          | 1236.84         | 74.10%  | System remains responsive for 35 req/s |
 
