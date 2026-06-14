@@ -63,6 +63,10 @@ jobs:
               --scale-rule-type cpu \
               --scale-rule-metadata "type=Utilization" "value=70"
             
+              --scale-rule-name http-scaling \
+              --scale-rule-type http \
+              --scale-rule-metadata "concurrentRequests=10"
+            
 
 #          minReplicas: 1
 #          maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits

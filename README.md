@@ -1,3 +1,6 @@
+Live Demo Note
+The application is hosted on a cost-optimized cloud deployment that scales down when idle. The first request may take approximately 40–60 seconds while the container starts. Subsequent requests respond normally.
+
 # SecureVault
 
 SecureVault is a high-performance, web-based password manager built with **Spring Boot 3.5.x** and **Java 21**. It is designed as a sophisticated system-design artifact to demonstrate **layered resource protection**, **CPU admission control**, and **load shedding** under extreme traffic conditions.
