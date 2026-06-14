@@ -61,8 +61,7 @@ jobs:
               --max-replicas 1 \
               --scale-rule-name cpu-scaling-rule \
               --scale-rule-type cpu \
-              --scale-rule-metadata "type=Utilization" "value=70"
-            
+              --scale-rule-metadata "type=Utilization" "value=70" \
               --scale-rule-name http-scaling \
               --scale-rule-type http \
               --scale-rule-metadata "concurrentRequests=10"
