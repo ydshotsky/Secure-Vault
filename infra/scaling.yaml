@@ -1,6 +1,6 @@
 properties:
   template:
-    scaling:
+    scale:
       min-replicas: 0
       max-replicas: 1
       rules:
