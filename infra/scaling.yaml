@@ -2,13 +2,14 @@ properties:
   template:
     scale:
       min-replicas: 0
-      max-replicas: 1
+      max-replicas: 2
       rules:
         - name: cpu-scaling-rule
-          type: cpu
-          metadata:
-            type: Utilization
-            value: "70"
+          custom:
+            type: cpu
+            metadata:
+              type: Utilization
+              value: "70"
         - name: http-scaling
           type: http
           metadata:
