@@ -1,0 +1,15 @@
+properties:
+  template:
+    scaling:
+      min-replicas: 0
+      max-replicas: 1
+      rules:
+        - name: cpu-scaling-rule
+          type: cpu
+          metadata:
+            type: Utilization
+            value: "70"
+        - name: http-scaling
+          type: http
+          metadata:
+            concurrentRequests: "10"

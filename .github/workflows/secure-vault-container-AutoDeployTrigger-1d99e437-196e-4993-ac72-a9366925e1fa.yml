@@ -57,25 +57,16 @@ jobs:
             az containerapp update \
               --name secure-vault-container \
               --resource-group rg-secure-vault \
-              --min-replicas 0 \
-              --max-replicas 1 \
-              --set-scaling-rules \
-                --scale-rule-name cpu-scaling-rule \
-                --scale-rule-type cpu \
-                --scale-rule-metadata "type=Utilization" "value=70" \
-                --scale-rule-name http-scaling \
-                --scale-rule-type http \
-                --scale-rule-metadata "concurrentRequests=10"
-            
+              --yaml infra/scaling.yaml
+#              --min-replicas 0 \
+#              --max-replicas 1 \
+#              --rules \
+#                --scale-rule-name cpu-scaling-rule \
+#                --scale-rule-type cpu \
+#                --scale-rule-metadata "type=Utilization" "value=70" \
+#                --scale-rule-name http-scaling \
+#                --scale-rule-type http \
+#                --scale-rule-metadata "concurrentRequests=10"
 
-#          minReplicas: 1
-#          maxReplicas: 2  # Hard ceiling protecting your Azure Student Credits
-
-          # Define KEDA Scale Rule via action arguments
-#          scaleRuleName: cpu-scaling-rule
-#          scaleRuleType: cpu
-#          scaleRuleMetadata: |
-#            type=Utilization
-#            value=70
 
 
