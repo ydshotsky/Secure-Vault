@@ -11,6 +11,6 @@ properties:
               type: Utilization
               value: "70"
         - name: http-scaling
-          type: http
-          metadata:
-            concurrentRequests: "10"
+          http:
+            metadata:
+              concurrentRequests: "10"
