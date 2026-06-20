@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 "/auth/signup",
                                 "/css/**",
                                 "/favicon.ico",
+                                "/site_logo.png",
                                 "/users/username-availability",
                                 "/js/signup.js")
                         .permitAll()
