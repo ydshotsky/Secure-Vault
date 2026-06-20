@@ -9,7 +9,7 @@ SecureVault is a high-performance, web-based password manager built with **Sprin
 
 The system employs a "Defense in Depth" strategy to maintain 100% availability for lightweight requests even during massive authentication spikes:
 
-1.  **Rate Limiting (Edge Protection):** A Redis-backed, IP-based filter designed to drop bot-driven volumetric attacks before they consume application resources. *(Note: This layer is currently disabled in the configuration to allow for pure CPU-bottleneck testing).*
+1.  **Rate Limiting (Edge Protection):** A Redis-backed, IP-based filter designed to drop bot-driven volumetric attacks before they consume application resources. 
 2.  **Admission Control (Core Protection):** A custom `OncePerRequestFilter` that acts as a **CPU Gatekeeper**. By utilizing a global Semaphore as a **CPU Budget**, the system explicitly bounds concurrent cryptographic operations (BCrypt). This prevents "Core Contention," where expensive hashing tasks saturate the CPU and cause cascading latency for unrelated requests (like health checks or static assets).
 
 ## 🚀 Advanced Performance Patterns
@@ -19,7 +19,7 @@ Beyond the defensive filters, SecureVault implements several mission-critical pa
 *   **Redis-Powered Rate Limiting (Atomic Lua Scripts):** To neutralize Denial of Service (DoS) and brute-force attacks at the application edge, the system uses Redis with custom **Lua scripts**. This ensures that the "check-and-increment" logic remains atomic and extremely low-latency, preventing race conditions during high-volume bursts.
 *   **Write-Through Caching & Instant Eviction:** To maintain strict data accuracy, the system employs a cache-eviction strategy. Upon any password update, the corresponding Redis cache entry is **instantly evicted**, ensuring that the next read operation always retrieves the "Source of Truth" from the PostgreSQL database.
 *   **Optimistic Locking (JPA/Hibernate):** Handled via the `@Version` annotation, the system prevents "Lost Update" anomalies. If two sessions attempt to modify the same credential simultaneously, the second transaction is safely rejected, maintaining data integrity across distributed nodes.
-*   **Asynchronous Cryptography (CompletableFuture):** Heavy hashing operations are offloaded to an isolated thread pool using **Java Futures**. This prevents the core request-response lifecycle from being blocked by synchronous CPU-intensive tasks, maximizing the throughput of the underlying Servlet threads.
+*   **Asynchronous Cryptography (Future):** Heavy hashing operations are offloaded to an isolated thread pool using **Java Futures**. This prevents the core request-response lifecycle from being blocked by synchronous CPU-intensive tasks, maximizing the throughput of the underlying Servlet threads.
 
 ## 🔐 Zero-Knowledge Encryption Model
 
@@ -44,10 +44,10 @@ SecureVault separates I/O-bound tasks from CPU-bound tasks to prevent "Head-of-L
 
 ## 🛠️ Tech Stack & Infrastructure
 
-*   **Runtime:** Java 21 (Temurin), Spring Boot 3.5.x
+*   **Runtime:** Java 21, Spring Boot 3.5.x
 *   **Infrastructure:** 1 Revision, 1 vCPU, 2 GB RAM (Azure Container App)
-*   **Database:** PostgreSQL (Flexible Server)
-*   **Cache/Rate Limiting:** Azure Cache for Redis
+*   **Database:** Aiven PostgreSQL (Flexible Server)
+*   **Cache/Rate Limiting:** Aiven Valkey for Redis
 *   **Observability:** Grafana Cloud (Prometheus for metrics + OTLP for traces)
 *   **Security:** AES-256 for credential storage, BCrypt for authentication
 
