@@ -1,5 +1,3 @@
-Live Demo Note
-The application is hosted on a cost-optimized cloud deployment that scales down when idle. The first request may take approximately 40–60 seconds while the container starts. Subsequent requests respond normally.
 
 # SecureVault
 
